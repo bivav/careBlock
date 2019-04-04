@@ -5,4 +5,6 @@
     <string name="title_activity_user_records">UserRecords</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="registrar">REGISTRAR</string>
+    <string name="user">USER</string>
 </resources>
