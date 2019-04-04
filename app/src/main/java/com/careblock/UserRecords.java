@@ -18,20 +18,12 @@ import java.util.ArrayList;
 
 import android.widget.Toast;
 
-
-import android.support.design.widget.FloatingActionButton;
-
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
-
-import static org.web3j.tx.Contract.GAS_LIMIT;
-import static org.web3j.tx.ManagedTransaction.GAS_PRICE;
+import android.support.design.widget.FloatingActionButton;
 
 
 public class UserRecords extends AppCompatActivity {
@@ -45,9 +37,7 @@ public class UserRecords extends AppCompatActivity {
     private ArrayList<UserRecordsModel> modelList = new ArrayList<>();
 
     Web3j web3;
-
     Web3ClientVersion web3ClientVersion;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +120,6 @@ public class UserRecords extends AppCompatActivity {
 
 
     private void setAdapter() {
-
 
         modelList.add(new UserRecordsModel("Android", "Hello " + " Android"));
         modelList.add(new UserRecordsModel("Beta", "Hello " + " Beta"));
