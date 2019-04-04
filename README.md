@@ -10,10 +10,12 @@ In this project we plan to decentralized record management system to handle EHRs
 
 ### From 12pm to 1pm
 1. Built Android Application
+
 2. Blockchain development started
 
 ### From 2pm to 6pm
 1.Creation and interface of Web3j with boilerplate Contract
+
 2.Deploying contracts on a local RPC server
 
 ### Objective For Hackathon
