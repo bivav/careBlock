@@ -9,10 +9,10 @@ In this project we plan to decentralized record management system to handle EHRs
 1. Research on BlockChain
 
 ### Tasks Completed
- Built Android Application
- Blockchain development started
- Creation and interface of Web3j with boilerplate Contract
- Deploying contracts on a local RPC server
+ 1. Built Android Application.
+ 2. Blockchain development started.
+ 3. Creation and interface of Web3j with boilerplate Contract.
+ 4. Deploying contracts on a local RPC server.
 
 ### Objective For Hackathon
 CareBlock gives patients a comprehensive, immutable log and easy access to their medical information across providers and treatment sites. Leveraging unique blockchain properties, the system manages authentication, confidentiality, accountability and data sharing—crucial considerations when handling sensitive information. 
