@@ -2,4 +2,7 @@
     <string name="app_name">CareBlock</string>
     <string name="user_button">User Button</string>
     <string name="registrar_button">Registrar button</string>
+    <string name="title_activity_user_records">UserRecords</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
