@@ -47,6 +47,8 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             genericViewHolder.itemTxtTitle.setText(model.getTitle());
             genericViewHolder.itemTxtMessage.setText(model.getMessage());
+            genericViewHolder.item_name.setText(model.getName());
+            genericViewHolder.item_record.setText(model.getRecord());
 
 
         }
@@ -76,22 +78,17 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private ImageView imgUser;
         private TextView itemTxtTitle;
         private TextView itemTxtMessage;
+        private TextView item_name;
+        private TextView item_record;
 
 
-        // @BindView(R.id.img_user)
-        // ImageView imgUser;
-        // @BindView(R.id.item_txt_title)
-        // TextView itemTxtTitle;
-        // @BindView(R.id.item_txt_message)
-        // TextView itemTxtMessage;
-        // @BindView(R.id.radio_list)
-        // RadioButton itemTxtMessage;
-        // @BindView(R.id.check_list)
-        // CheckBox itemCheckList;
+
+
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            // ButterKnife.bind(this, itemView);
+            this.item_name= (TextView) itemView.findViewById(R.id.item_name);
+            this.item_record = (TextView) itemView.findViewById(R.id.item_record);
 
             this.imgUser = (ImageView) itemView.findViewById(R.id.img_user);
             this.itemTxtTitle = (TextView) itemView.findViewById(R.id.item_txt_title);

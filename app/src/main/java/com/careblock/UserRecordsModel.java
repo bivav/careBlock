@@ -6,12 +6,22 @@ public class UserRecordsModel {
 
     private String title;
 
-    private String message;
+    private String message, name, record;
 
 
-    public UserRecordsModel(String title, String message) {
+    public UserRecordsModel(String title, String message, String name, String record) {
         this.title = title;
         this.message = message;
+        this.name = name;
+        this.record = record;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRecord() {
+        return record;
     }
 
     public UserRecordsModel() {

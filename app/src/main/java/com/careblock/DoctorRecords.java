@@ -15,23 +15,30 @@ import android.widget.Toast;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple5;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class DoctorRecords extends AppCompatActivity {
 
-        private static String TAG = "UserRecords";
+        private static String TAG = "DoctorRecords";
 
         private RecyclerView recyclerView;
         private FloatingActionButton fab;
-        private RecyclerViewAdapter mAdapter;
+        private DoctorsRecyclerAdapter mAdapter;
 
-        private ArrayList<UserRecordsModel> modelList = new ArrayList<>();
+        Tuple5<BigInteger, BigInteger, String, String, byte[]> tt;
+
+        private ArrayList<DoctorRecordsModel> modelList = new ArrayList<>();
 
         Web3j web3;
         Web3ClientVersion web3ClientVersion;
@@ -41,8 +48,7 @@ public class DoctorRecords extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_doctor_records);
 
-            findViews();
-            setAdapter();
+
 
             com.careblock.DoctorRecords.DoctorRecordsAsyncTask asyncTask = new com.careblock.DoctorRecords.DoctorRecordsAsyncTask();
             asyncTask.execute();
@@ -51,7 +57,7 @@ public class DoctorRecords extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(com.careblock.DoctorRecords.this,AddDoctorRecords.class);
+                    Intent intent = new Intent(com.careblock.DoctorRecords.this, AddDoctorRecords.class);
                     startActivity(intent);
                 }
             });
@@ -62,10 +68,17 @@ public class DoctorRecords extends AppCompatActivity {
         public class DoctorRecordsAsyncTask extends AsyncTask<Void,Void,Void> {
 
             @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                findViews();
+                setAdapter();
+            }
+
+            @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                web3 = Web3jFactory.build(new HttpService("http://192.168.137.207:8545"));
+                web3 = Web3jFactory.build(new HttpService("http://172.20.10.4:8545"));
 
             }
 
@@ -78,15 +91,14 @@ public class DoctorRecords extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
                 String clientVersion = web3ClientVersion.getWeb3ClientVersion();
 
                 Log.i(TAG,"First: " +  String.valueOf(clientVersion));
 
-                Migrations contract = null;
+                Records contract = null;
 
                 // THE ONLY THING THAT MATTERS!!!!
-                Credentials credentials = Credentials.create("8bd6d7380d883b46c779ba051ec25498b6a0bbed79c728329fc2da8d6b69dffb");
+                Credentials credentials = Credentials.create("59c51ad34997b7229d193bf950fc3cdb39e0145a1da5f27f37120187a9b97c69");
 
                 Log.i(TAG, "Second: " + String.valueOf(credentials.getAddress()));
 
@@ -98,12 +110,29 @@ public class DoctorRecords extends AppCompatActivity {
                 try {
 
                     // Creating Contract Instance
-                    contract = Migrations.deploy(web3, credentials, new BigInteger("20000000000"),
-                            new BigInteger("6721975")).send();
+//                    contract = Migrations.deploy(web3, credentials, new BigInteger("20000000000"),
+//                            new BigInteger("6721975")).send();
+//
+//                    String test = contract.owner().send();
 
-                    String test = contract.owner().send();
+                    String string = "0x123456";
 
-                    Log.i(TAG, "Owner" + test);
+                    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                    byte[] hash = digest.digest(string.getBytes(StandardCharsets.UTF_8));
+
+
+                    contract = Records.deploy(web3, credentials, new BigInteger("20000000000"),
+                            new BigInteger("6721975"), "bivav", string.getBytes(), new BigInteger("1")).send();
+
+                    RemoteCall<TransactionReceipt> addRecord = contract.addRecord(new BigInteger("1"), "sick", hash);
+                    addRecord.send();
+
+                    RemoteCall<Tuple5<BigInteger, BigInteger, String, String, byte[]>> remoteCall = contract.Patients(new BigInteger("1"));
+
+                    tt =  remoteCall.send();
+
+
+                    Log.i(TAG, "Owner: " + tt.getValue3());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -127,17 +156,10 @@ public class DoctorRecords extends AppCompatActivity {
 
         private void setAdapter() {
 
-            modelList.add(new UserRecordsModel("Android", "Hello " + " Android"));
-            modelList.add(new UserRecordsModel("Beta", "Hello " + " Beta"));
-            modelList.add(new UserRecordsModel("Cupcake", "Hello " + " Cupcake"));
-            modelList.add(new UserRecordsModel("Donut", "Hello " + " Donut"));
-            modelList.add(new UserRecordsModel("Eclair", "Hello " + " Eclair"));
-            modelList.add(new UserRecordsModel("Froyo", "Hello " + " Froyo"));
-            modelList.add(new UserRecordsModel("Gingerbread", "Hello " + " Gingerbread"));
-            modelList.add(new UserRecordsModel("Honeycomb", "Hello " + " Honeycomb"));
-            modelList.add(new UserRecordsModel("Ice Cream Sandwich", "Hello " + " Ice Cream Sandwich"));
+            modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
+            modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
 
-            mAdapter = new RecyclerViewAdapter(com.careblock.DoctorRecords.this, modelList);
+            mAdapter = new DoctorsRecyclerAdapter(com.careblock.DoctorRecords.this, modelList);
 
             recyclerView.setHasFixedSize(true);
 
@@ -146,12 +168,13 @@ public class DoctorRecords extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mAdapter);
 
-            mAdapter.SetOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            mAdapter.SetOnItemClickListener(new DoctorsRecyclerAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(View view, int position, UserRecordsModel model) {
+                public void onItemClick(View view, int position, DoctorRecordsModel model) {
                     //handle item click events here
                     Toast.makeText(com.careblock.DoctorRecords.this, "Hey " + model.getTitle(), Toast.LENGTH_SHORT).show();
                 }
+
             });
 
         }

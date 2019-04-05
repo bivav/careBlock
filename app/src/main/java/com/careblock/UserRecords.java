@@ -14,6 +14,9 @@ import android.view.View;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ArrayList;
 
@@ -22,8 +25,12 @@ import android.widget.Toast;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple5;
+
 import android.support.design.widget.FloatingActionButton;
 
 
@@ -40,13 +47,12 @@ public class UserRecords extends AppCompatActivity {
     Web3j web3;
     Web3ClientVersion web3ClientVersion;
 
+    Tuple5<BigInteger, BigInteger, String, String, byte[]> tt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_records);
-
-        findViews();
-        setAdapter();
 
         UserRecordsAsyncTask asyncTask = new UserRecordsAsyncTask();
         asyncTask.execute();
@@ -59,7 +65,6 @@ public class UserRecords extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -69,7 +74,8 @@ public class UserRecords extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            web3 = Web3jFactory.build(new HttpService("http://192.168.137.207:8545"));
+            web3 = Web3jFactory.build(new HttpService("http://172.20.10.4:8545"));
+
 
         }
 
@@ -87,27 +93,36 @@ public class UserRecords extends AppCompatActivity {
 
             Log.i(TAG,"First: " +  String.valueOf(clientVersion));
 
-            Migrations contract = null;
+            Records contract = null;
 
             // THE ONLY THING THAT MATTERS!!!!
-            Credentials credentials = Credentials.create("8bd6d7380d883b46c779ba051ec25498b6a0bbed79c728329fc2da8d6b69dffb");
+            Credentials credentials = Credentials.create("59c51ad34997b7229d193bf950fc3cdb39e0145a1da5f27f37120187a9b97c69");
 
             Log.i(TAG, "Second: " + String.valueOf(credentials.getAddress()));
 
 
             // Previous Contract
-//            contract = Migrations.load("0xb953082A7df1F45fFe40367E8f0BE6A1272526D7",
+//            contract = Migrations.load("0x327586aF6a14Ee05c6D2E0424a5Bbb3097CE3909",
 //                    web3, credentials, new BigInteger("2000000000"), new BigInteger("6721975"));
 
             try {
 
                 // Creating Contract Instance
-                contract = Migrations.deploy(web3, credentials, new BigInteger("20000000000"),
-                        new BigInteger("6721975")).send();
+                String string = "0x123456";
 
-                String test = contract.owner().send();
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                byte[] hash = digest.digest(string.getBytes(StandardCharsets.UTF_8));
 
-                Log.i(TAG, "Owner" + test);
+
+                contract = Records.deploy(web3, credentials, new BigInteger("20000000000"),
+                        new BigInteger("6721975"), "bivav", string.getBytes(), new BigInteger("1")).send();
+
+                RemoteCall<TransactionReceipt> addRecord = contract.addRecord(new BigInteger("1"), "sick", hash);
+                addRecord.send();
+
+                RemoteCall<Tuple5<BigInteger, BigInteger, String, String, byte[]>> remoteCall = contract.Patients(new BigInteger("1"));
+
+                tt =  remoteCall.send();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -119,7 +134,19 @@ public class UserRecords extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            Log.i(TAG, "Owner: " + tt.getValue1() + " " + tt.getValue2() + " " + tt.getValue3() + " " + tt.getValue4());
+
+
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            findViews();
+            setAdapter();
+
         }
     }
 
@@ -131,15 +158,16 @@ public class UserRecords extends AppCompatActivity {
 
     private void setAdapter() {
 
-        modelList.add(new UserRecordsModel("Android", "Hello " + " Android"));
-        modelList.add(new UserRecordsModel("Beta", "Hello " + " Beta"));
-        modelList.add(new UserRecordsModel("Cupcake", "Hello " + " Cupcake"));
-        modelList.add(new UserRecordsModel("Donut", "Hello " + " Donut"));
-        modelList.add(new UserRecordsModel("Eclair", "Hello " + " Eclair"));
-        modelList.add(new UserRecordsModel("Froyo", "Hello " + " Froyo"));
-        modelList.add(new UserRecordsModel("Gingerbread", "Hello " + " Gingerbread"));
-        modelList.add(new UserRecordsModel("Honeycomb", "Hello " + " Honeycomb"));
-        modelList.add(new UserRecordsModel("Ice Cream Sandwich", "Hello " + " Ice Cream Sandwich"));
+        modelList.add(new UserRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
+        modelList.add(new UserRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
+
+//        modelList.add(new UserRecordsModel("Cupcake", "Hello " + " Cupcake"));
+//        modelList.add(new UserRecordsModel("Donut", "Hello " + " Donut"));
+//        modelList.add(new UserRecordsModel("Eclair", "Hello " + " Eclair"));
+//        modelList.add(new UserRecordsModel("Froyo", "Hello " + " Froyo"));
+//        modelList.add(new UserRecordsModel("Gingerbread", "Hello " + " Gingerbread"));
+//        modelList.add(new UserRecordsModel("Honeycomb", "Hello " + " Honeycomb"));
+//        modelList.add(new UserRecordsModel("Ice Cream Sandwich", "Hello " + " Ice Cream Sandwich"));
 
         mAdapter = new RecyclerViewAdapter(UserRecords.this, modelList);
 

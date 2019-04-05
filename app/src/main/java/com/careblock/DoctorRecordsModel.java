@@ -3,17 +3,23 @@ package com.careblock;
 public class DoctorRecordsModel {
     private String title;
 
-    private String message;
+    private String message, name, record;
 
-
-    public DoctorRecordsModel(String title, String message) {
+    public DoctorRecordsModel(String title, String message, String name, String record) {
         this.title = title;
         this.message = message;
+        this.name = name;
+        this.record = record;
     }
 
-    public DoctorRecordsModel() {
-
+    public String getName() {
+        return name;
     }
+
+    public String getRecord() {
+        return record;
+    }
+
 
     public String getTitle() {
         return title;

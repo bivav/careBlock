@@ -53,6 +53,26 @@
                 android:textColor="#727272"
                 android:textSize="14dp" />
 
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="#727272"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/item_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="#727272"
+                android:textSize="14dp" />
+
+
+
         </LinearLayout>
 
 

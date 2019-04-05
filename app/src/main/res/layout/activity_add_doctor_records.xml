@@ -45,13 +45,15 @@
             android:layout_margin="16dp"
             android:hint="@string/password"
             android:inputType="textPassword" />
+
+
         <EditText
             android:id="@+id/ediText4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_margin="16dp"
-            android:hint="@string/medical_summary"
+            android:hint="@string/summary"
             android:inputType="textMultiLine" />
 
         <Button

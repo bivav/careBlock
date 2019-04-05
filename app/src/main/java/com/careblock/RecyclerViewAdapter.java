@@ -54,7 +54,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             genericViewHolder.itemTxtTitle.setText(model.getTitle());
             genericViewHolder.itemTxtMessage.setText(model.getMessage());
-
+            genericViewHolder.item_name.setText(model.getName());
+            genericViewHolder.item_record.setText(model.getRecord());
 
         }
     }
@@ -84,26 +85,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ImageView imgUser;
         private TextView itemTxtTitle;
         private TextView itemTxtMessage;
+        private TextView item_name;
+        private TextView item_record;
 
 
-        // @BindView(R.id.img_user)
-        // ImageView imgUser;
-        // @BindView(R.id.item_txt_title)
-        // TextView itemTxtTitle;
-        // @BindView(R.id.item_txt_message)
-        // TextView itemTxtMessage;
-        // @BindView(R.id.radio_list)
-        // RadioButton itemTxtMessage;
-        // @BindView(R.id.check_list)
-        // CheckBox itemCheckList;
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            // ButterKnife.bind(this, itemView);
 
             this.imgUser = (ImageView) itemView.findViewById(R.id.img_user);
             this.itemTxtTitle = (TextView) itemView.findViewById(R.id.item_txt_title);
             this.itemTxtMessage = (TextView) itemView.findViewById(R.id.item_txt_message);
+            this.item_name= (TextView) itemView.findViewById(R.id.item_name);
+            this.item_record = (TextView) itemView.findViewById(R.id.item_record);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

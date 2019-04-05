@@ -7,10 +7,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="registrar">REGISTRAR</string>
     <string name="user">USER</string>
+    <string name="doctor">DOCTOR</string>
+    <string name="id">ID</string>
+    <string name="password">Password</string>
+    <string name="summary">Summary</string>
     <string name="submit">Submit</string>
     <string name="name">Name</string>
-    <string name="id">ID</string>
-    <string name="medical_summary">Medical Summary</string>
-    <string name="password">Password</string>
-    <string name="doctor">DOCTOR</string>
+
 </resources>
