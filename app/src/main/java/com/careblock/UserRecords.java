@@ -1,6 +1,7 @@
 package com.careblock;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,15 @@ public class UserRecords extends AppCompatActivity {
 
         UserRecordsAsyncTask asyncTask = new UserRecordsAsyncTask();
         asyncTask.execute();
+
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserRecords.this,AddRecordsActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

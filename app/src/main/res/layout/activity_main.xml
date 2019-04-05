@@ -32,7 +32,7 @@
         android:layout_height="185dp"
         android:layout_marginStart="101dp"
         android:layout_marginTop="50dp"
-        android:text="@string/registrar"
+        android:text="@string/doctor"
         android:textSize="26sp"
         android:textColor="#fff"
         android:layout_marginEnd="101dp"

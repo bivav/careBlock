@@ -23,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        Button doctorButton = findViewById(R.id.imageView);
+        doctorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DoctorRecords.class);
+                startActivity(intent);
+
+            }
+        });
 
 
 
