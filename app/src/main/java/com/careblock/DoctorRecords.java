@@ -116,6 +116,7 @@ public class DoctorRecords extends AppCompatActivity {
 //                    String test = contract.owner().send();
 
                     String string = "0x123456";
+                    String empty ="";
 
                     MessageDigest digest = MessageDigest.getInstance("SHA-256");
                     byte[] hash = digest.digest(string.getBytes(StandardCharsets.UTF_8));
@@ -155,10 +156,9 @@ public class DoctorRecords extends AppCompatActivity {
 
 
         private void setAdapter() {
-
-            modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
-            modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
-
+            if (tt==null) Toast.makeText(this,"Can't access Blockchain",Toast.LENGTH_LONG);
+                modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: " + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: " + tt.getValue4()));
+                modelList.add(new DoctorRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: " + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: " + tt.getValue4()));
             mAdapter = new DoctorsRecyclerAdapter(com.careblock.DoctorRecords.this, modelList);
 
             recyclerView.setHasFixedSize(true);

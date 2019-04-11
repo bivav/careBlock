@@ -41,6 +41,7 @@ public class UserRecords extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private RecyclerViewAdapter mAdapter;
+    String name,id,pass,summary;
 
     private ArrayList<UserRecordsModel> modelList = new ArrayList<>();
 
@@ -54,6 +55,12 @@ public class UserRecords extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_records);
 
+        Intent receivedIntent = getIntent();
+        name = receivedIntent.getStringExtra("name");
+        id = receivedIntent.getStringExtra("id");
+        pass = receivedIntent.getStringExtra("pass");
+        summary = receivedIntent.getStringExtra("summary");
+
         UserRecordsAsyncTask asyncTask = new UserRecordsAsyncTask();
         asyncTask.execute();
 
@@ -65,6 +72,7 @@ public class UserRecords extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -160,7 +168,7 @@ public class UserRecords extends AppCompatActivity {
 
         modelList.add(new UserRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
         modelList.add(new UserRecordsModel("Patient ID: " + String.valueOf(tt.getValue1()), "Doctor ID: "  + String.valueOf(tt.getValue2()), "Name: " + tt.getValue3(), "Summary: "+ tt.getValue4()));
-
+        modelList.add(new UserRecordsModel("Patient ID: "+name,"Doctor ID: "+id,"Password: "+ pass,"Summary: "+summary));
 //        modelList.add(new UserRecordsModel("Cupcake", "Hello " + " Cupcake"));
 //        modelList.add(new UserRecordsModel("Donut", "Hello " + " Donut"));
 //        modelList.add(new UserRecordsModel("Eclair", "Hello " + " Eclair"));
